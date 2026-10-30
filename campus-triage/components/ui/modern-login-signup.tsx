@@ -220,10 +220,10 @@ export default function ModernLoginSignup() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,31,23,0.45),transparent)]" />
       <section className="relative z-10 flex w-full max-w-[400px] flex-col items-center rounded-xl border border-[#3E5A3F] bg-[#1E3A2E] p-8 shadow-2xl">
         <div className="flex w-full max-w-[360px] flex-col items-center text-center">
-          <div className="mb-3 flex size-11 items-center justify-center rounded-full border border-[#6B7F67] bg-[#0F1F17] text-lg font-bold text-[#C7CBB8]">
+          <div className="mb-3 flex size-11 items-center justify-center rounded-full border border-[#6B7F67] bg-[#0F1F17] font-pixel text-lg font-bold text-[#C7CBB8]">
             CP
           </div>
-          <h1 className="text-[1.35rem] font-semibold tracking-tight">
+          <h1 className="font-display text-[1.05rem] leading-7 tracking-tight sm:text-[1.15rem]">
             {isLogin ? "Sign in to CampusPulse" : "Create your CampusPulse account"}
           </h1>
           <p className="mb-4 mt-1 text-sm leading-6 text-[#6B7F67]">
