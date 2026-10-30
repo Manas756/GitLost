@@ -1,69 +1,36 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
-export type ActiveRole =
-  | "STUDENT"
-  | "INFRA_ADMIN"
-  | "IT_ADMIN"
-  | "SAN_ADMIN"
-  | "HST_ADMIN"
-  | "SUPER_ADMIN";
+export type ActiveRole = "STUDENT" | "TEACHER" | "FACULTY" | "ADMINISTRATIVE";
+export type DepartmentCode = "BTECH" | "MCA" | "SCI" | "INFRA" | "IT" | "SAN";
 
-export type DepartmentCode = "INFRA" | "IT" | "SAN" | "HST" | "ACAD" | "SW";
-
-export interface RoleConfig {
-  label: string;
-  deptCode?: DepartmentCode;
-}
-
-export const roleConfig: Record<ActiveRole, RoleConfig> = {
-  STUDENT: { label: "Student" },
-  INFRA_ADMIN: { label: "Infrastructure Admin", deptCode: "INFRA" },
-  IT_ADMIN: { label: "IT Admin", deptCode: "IT" },
-  SAN_ADMIN: { label: "Sanitation Admin", deptCode: "SAN" },
-  HST_ADMIN: { label: "Hostel Admin", deptCode: "HST" },
-  SUPER_ADMIN: { label: "Super Admin" },
+export const roleConfig: Record<ActiveRole, { label: string; description: string }> = {
+  STUDENT: { label: "Student", description: "Submit and track anonymous campus issues." },
+  TEACHER: { label: "Teacher", description: "Tier 1 triage and first response queue." },
+  FACULTY: { label: "Faculty", description: "Tier 2 escalation and coordination queue." },
+  ADMINISTRATIVE: { label: "Administrative", description: "Tier 3 command and resolution queue." },
 };
 
 interface RoleContextValue {
   activeRole: ActiveRole;
   setActiveRole: (role: ActiveRole) => void;
-  roleConfig: RoleConfig;
+  roleConfig: (typeof roleConfig)[ActiveRole];
 }
 
 const RoleContext = createContext<RoleContextValue | undefined>(undefined);
 
-interface RoleProviderProps {
-  children: ReactNode;
-}
-
-export function RoleProvider({ children }: RoleProviderProps) {
+export function RoleProvider({ children }: { children: ReactNode }) {
   const [activeRole, setActiveRole] = useState<ActiveRole>("STUDENT");
   const value = useMemo(
-    () => ({
-      activeRole,
-      setActiveRole,
-      roleConfig: roleConfig[activeRole],
-    }),
-    [activeRole]
+    () => ({ activeRole, setActiveRole, roleConfig: roleConfig[activeRole] }),
+    [activeRole],
   );
-
   return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;
 }
 
-export function useRole(): RoleContextValue {
-  const context = useContext(RoleContext);
-
-  if (!context) {
-    throw new Error("useRole must be used within a RoleProvider");
-  }
-
-  return context;
+export function useRole() {
+  const value = useContext(RoleContext);
+  if (!value) throw new Error("useRole must be used within a RoleProvider");
+  return value;
 }

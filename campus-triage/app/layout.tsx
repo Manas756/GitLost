@@ -30,8 +30,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CampusPulse",
-  description: "Campus issue resolution hub",
+  title: "Campus Speedrun",
+  description: "AI-powered academic and infrastructure triage",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
